@@ -27,7 +27,6 @@ namespace Caching.SqlServer.Infastructure.Extensions
             {
                 using (var context = serviceScope.ServiceProvider.GetService<CacheDbContext>())
                 {
-                    context.Database.EnsureCreated();
                     context.Database.Migrate();
                 }
             }

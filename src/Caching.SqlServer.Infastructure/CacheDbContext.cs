@@ -20,10 +20,10 @@ namespace Caching.SqlServer.Infastructure
         
         public virtual DbSet<Cache> Cache { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.ReplaceService<IMigrationsAssembly, CacheMigrationAssembly>();
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ReplaceService<IMigrationsAssembly, CacheMigrationAssembly>();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

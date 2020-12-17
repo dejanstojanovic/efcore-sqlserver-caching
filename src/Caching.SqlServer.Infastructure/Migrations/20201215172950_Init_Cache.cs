@@ -1,18 +1,26 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Caching.SqlServer;
+using Microsoft.Extensions.Options;
 
 namespace Caching.SqlServer.Infastructure.Migrations
 {
     public partial class Init_Cache : Migration
     {
+        readonly SqlServerCacheOptions _options;
+        public Init_Cache(IOptions<SqlServerCacheOptions> options)
+        {
+            _options = options.Value;
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "app");
+                name: _options.SchemaName);
 
             migrationBuilder.CreateTable(
-                name: "Cache",
-                schema: "app",
+                name: _options.TableName,
+                schema: _options.SchemaName,
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(449)", maxLength: 449, nullable: false),
@@ -23,21 +31,21 @@ namespace Caching.SqlServer.Infastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cache", x => x.Id);
+                    table.PrimaryKey($"PK_{_options.TableName}", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cache_ExpiresAtTime",
-                schema: "app",
-                table: "Cache",
+                name: $"IX_{_options.TableName}_ExpiresAtTime",
+                schema: _options.SchemaName,
+                table: _options.TableName,
                 column: "ExpiresAtTime");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cache",
-                schema: "app");
+                name: _options.TableName,
+                schema: _options.SchemaName);
         }
     }
 }

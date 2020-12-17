@@ -21,11 +21,13 @@ namespace Caching.SqlServer.Demo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("CacheDbConnection");
+
             services.AddDistributedSqlServerCache(options =>
             {
                 options.ConnectionString = connectionString;
                 options.SchemaName = "app";
-            }).AddSqlServerCachingInfrastructure(connectionString);
+                options.TableName = "Cache";
+            }).AddSqlServerCachingInfrastructure();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -11,6 +11,7 @@
     <Description>Setting up Microsoft SQL Server caching for ASP.NET Core</Description>
     <PackageProjectUrl>https://github.com/dejanstojanovic/efcore-sqlserver-caching</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dejanstojanovic/efcore-sqlserver-caching</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>

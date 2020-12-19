@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace Caching.SqlServer.Infastructure.Migrations
 {
-    public partial class Init_Cache : Migration
+    internal partial class Init_Cache : Migration
     {
         readonly SqlServerCacheOptions _options;
         public Init_Cache(IOptions<SqlServerCacheOptions> options)

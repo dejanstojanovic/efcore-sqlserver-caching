@@ -4,19 +4,16 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.Extensions.Caching.SqlServer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
-using System.Linq;
 
 namespace Caching.SqlServer.Infastructure
 {
-    public class CacheMigrationAssembly : MigrationsAssembly
+    internal class CacheMigrationAssembly : MigrationsAssembly
     {
         readonly IOptions<SqlServerCacheOptions> _cacheOptions;
         readonly CacheDbContext _cacheDbContext;
-
 
         public CacheMigrationAssembly(
             ICurrentDbContext currentContext,

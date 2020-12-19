@@ -4,7 +4,7 @@
 
 namespace Caching.SqlServer.Infastructure.Models
 {
-    public partial class Cache
+    internal partial class Cache
     {
         public string Id { get; set; }
         public byte[] Value { get; set; }

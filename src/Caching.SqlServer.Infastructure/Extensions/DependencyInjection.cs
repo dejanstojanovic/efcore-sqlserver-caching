@@ -11,6 +11,10 @@ namespace Caching.SqlServer.Infastructure.Extensions
 {
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Adds Microsoft SQL Server caching infrastructure using <see cref="SqlServerCacheOptions"/> values set previously by <see cref="SqlServerCachingServicesExtensions.AddDistributedSqlServerCache(IServiceCollection, Action{SqlServerCacheOptions})"/> method"
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> of application services to be injected</param>
         public static void AddSqlServerCachingInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<IEntityTypeConfiguration<Cache>, CacheConfiguration>();
@@ -25,11 +29,20 @@ namespace Caching.SqlServer.Infastructure.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds Microsoft SQL Server caching infrastructure using <see cref="SqlServerCacheOptions"/> values set previously by <see cref="SqlServerCachingServicesExtensions.AddDistributedSqlServerCache(IServiceCollection, Action{SqlServerCacheOptions})"/> method"
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> of application services to be injected</param>
+        /// <param name="options">EF Core <see cref="DbContext"/> options</param>
         public static void AddSqlServerCachingInfrastructure(this IServiceCollection services, Action<DbContextOptionsBuilder> options)
         {
             services.AddDbContext<CacheDbContext>(options);
         }
 
+        /// <summary>
+        /// Executes migration to create the table for Microsoft SQL Server based caching
+        /// </summary>
+        /// <param name="app">ASP.NET Core pipeline <see cref="IApplicationBuilder"/> instance</param>
         public static void SetupSqlServerCachingInfrastructure(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices

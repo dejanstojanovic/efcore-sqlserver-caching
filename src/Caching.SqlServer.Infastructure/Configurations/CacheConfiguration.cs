@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Caching.SqlServer.Infastructure.Configurations
 {
-    public class CacheConfiguration : IEntityTypeConfiguration<Cache>
+    internal class CacheConfiguration : IEntityTypeConfiguration<Cache>
     {
         readonly SqlServerCacheOptions _options;
         public CacheConfiguration(IOptions<SqlServerCacheOptions> options)

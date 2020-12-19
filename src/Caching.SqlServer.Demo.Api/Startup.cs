@@ -20,11 +20,9 @@ namespace Caching.SqlServer.Demo.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("CacheDbConnection");
-
             services.AddDistributedSqlServerCache(options =>
             {
-                options.ConnectionString = connectionString;
+                options.ConnectionString = Configuration.GetConnectionString("CacheDbConnection");
                 options.SchemaName = "app";
                 options.TableName = "Cache";
             }).AddSqlServerCachingInfrastructure();

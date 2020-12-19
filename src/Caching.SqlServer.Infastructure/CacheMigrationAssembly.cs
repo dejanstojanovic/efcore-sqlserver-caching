@@ -14,18 +14,19 @@ namespace Caching.SqlServer.Infastructure
 {
     public class CacheMigrationAssembly : MigrationsAssembly
     {
-        readonly SqlServerCacheOptions _cacheOptions;
+        readonly IOptions<SqlServerCacheOptions> _cacheOptions;
+        readonly CacheDbContext _cacheDbContext;
+
 
         public CacheMigrationAssembly(
-            //IOptions<SqlServerCacheOptions> cacheOptions,
-            IServiceProvider serviceProvider,
             ICurrentDbContext currentContext,
             IDbContextOptions options,
             IMigrationsIdGenerator idGenerator,
             IDiagnosticsLogger<DbLoggerCategory.Migrations> logger) : base(currentContext, options, idGenerator, logger)
         {
-            var cacheOptions = serviceProvider.GetRequiredService<IOptions<SqlServerCacheOptions>>();
-            _cacheOptions = cacheOptions.Value;
+            _cacheDbContext = currentContext.Context as CacheDbContext;
+            _cacheOptions = _cacheDbContext.CacheOptions;
+
         }
         public override Migration CreateMigration(TypeInfo migrationClass, string activeProvider)
         {

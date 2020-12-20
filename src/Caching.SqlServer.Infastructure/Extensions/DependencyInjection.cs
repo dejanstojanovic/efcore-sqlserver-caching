@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.SqlServer;
 using Microsoft.Extensions.Options;
 using Caching.SqlServer.Infastructure.Models;
 using Caching.SqlServer.Infastructure.Configurations;
+using Caching.SqlServer.Infastructure.Options;
 
 namespace Caching.SqlServer.Infastructure.Extensions
 {
@@ -15,16 +16,26 @@ namespace Caching.SqlServer.Infastructure.Extensions
         /// Adds Microsoft SQL Server caching infrastructure using <see cref="SqlServerCacheOptions"/> values set previously by <see cref="SqlServerCachingServicesExtensions.AddDistributedSqlServerCache(IServiceCollection, Action{SqlServerCacheOptions})"/> method"
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> of application services to be injected</param>
-        public static void AddSqlServerCachingInfrastructure(this IServiceCollection services)
+        /// <param name="dbContextOptions">DbContext options for cache db context</param>
+        public static void AddSqlServerCachingInfrastructure(this IServiceCollection services, Action<IOptions<SqlServerCacheDbContextOptions>> dbContextOptions = null)
         {
             services.AddScoped<IEntityTypeConfiguration<Cache>, CacheConfiguration>();
 
+            if(dbContextOptions!=null)
+                services.Configure<SqlServerCacheDbContextOptions>(dbContextOptions);
+
             using (var provider = services.BuildServiceProvider())
             {
-                var connectionString = provider.GetService<IOptions<SqlServerCacheOptions>>().Value.ConnectionString;
+                var cacheOptions = provider.GetService<IOptions<SqlServerCacheOptions>>().Value;
+                var cacheDbContextOptions = provider.GetService<IOptions<SqlServerCacheDbContextOptions>>().Value;
                 services.AddDbContext<CacheDbContext>(options =>
                 {
-                    options.UseSqlServer(connectionString);
+                    options.UseSqlServer(cacheOptions.ConnectionString, o =>
+                    {
+                        o.MigrationsHistoryTable(
+                            cacheDbContextOptions.MigrationHistoryTable,
+                            cacheOptions.SchemaName);
+                    });
                 });
             }
         }

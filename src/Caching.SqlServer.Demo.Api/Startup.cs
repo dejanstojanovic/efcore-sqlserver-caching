@@ -23,9 +23,9 @@ namespace Caching.SqlServer.Demo.Api
             services.AddDistributedSqlServerCache(options =>
             {
                 options.ConnectionString = Configuration.GetConnectionString("CacheDbConnection");
-                options.SchemaName = "app";
+                options.SchemaName = "cache";
                 options.TableName = "Cache";
-            }).AddSqlServerCachingInfrastructure();
+            }).AddSqlServerCachingInfrastructure(o=>o.MigrationHistoryTable="__CacheEFMigrationHistory");
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

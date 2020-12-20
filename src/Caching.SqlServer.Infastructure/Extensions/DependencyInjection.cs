@@ -17,7 +17,7 @@ namespace Caching.SqlServer.Infastructure.Extensions
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> of application services to be injected</param>
         /// <param name="dbContextOptions">DbContext options for cache db context</param>
-        public static void AddSqlServerCachingInfrastructure(this IServiceCollection services, Action<IOptions<SqlServerCacheDbContextOptions>> dbContextOptions = null)
+        public static void AddSqlServerCachingInfrastructure(this IServiceCollection services, Action<SqlServerCacheDbContextOptions> dbContextOptions = null)
         {
             services.AddScoped<IEntityTypeConfiguration<Cache>, CacheConfiguration>();
 
@@ -38,16 +38,6 @@ namespace Caching.SqlServer.Infastructure.Extensions
                     });
                 });
             }
-        }
-
-        /// <summary>
-        /// Adds Microsoft SQL Server caching infrastructure using <see cref="SqlServerCacheOptions"/> values set previously by <see cref="SqlServerCachingServicesExtensions.AddDistributedSqlServerCache(IServiceCollection, Action{SqlServerCacheOptions})"/> method"
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> of application services to be injected</param>
-        /// <param name="options">EF Core <see cref="DbContext"/> options</param>
-        public static void AddSqlServerCachingInfrastructure(this IServiceCollection services, Action<DbContextOptionsBuilder> options)
-        {
-            services.AddDbContext<CacheDbContext>(options);
         }
 
         /// <summary>

@@ -2,14 +2,14 @@
 
 ## Usage
 
-Step 1
+### Step 1
 
 Install NuGet package
 ```bash
 dotnet add package Caching.SqlServer.Infastructure --version 1.0.1
 ```
 
-Step 2
+### Step 2
 
 Register services after registering Sql Server Distributed caching
 ```csharp
@@ -26,7 +26,7 @@ Register services after registering Sql Server Distributed caching
         }
 ```
 
-Step 3
+### Step 3
 
 Initiate setup from the pipeline
 ```csharp

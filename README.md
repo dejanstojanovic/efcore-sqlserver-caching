@@ -1,6 +1,15 @@
 # Extension methods for setting up Microsoft SQL Server caching for ASP.NET Core
 
-##Usage
+## Usage
+
+Step 1
+
+Install NuGet package
+```bash
+dotnet add package Caching.SqlServer.Infastructure --version 1.0.1
+```
+
+Step 2
 
 Register services after registering Sql Server Distributed caching
 ```csharp
@@ -16,6 +25,8 @@ Register services after registering Sql Server Distributed caching
             ...
         }
 ```
+
+Step 3
 
 Initiate setup from the pipeline
 ```csharp
